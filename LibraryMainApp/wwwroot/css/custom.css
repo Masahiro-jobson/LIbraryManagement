@@ -1,4 +1,4 @@
-/* custom.css - All styling for Library Management System */
+
 
 /* Body and Base Styles */
 body {
@@ -18,7 +18,7 @@ body {
 
     .card:hover {
         transform: translateY(-5px);
-    }
+        }
 
 .card-header {
     font-weight: bold;

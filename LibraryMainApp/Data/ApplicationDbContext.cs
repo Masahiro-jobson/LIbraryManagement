@@ -32,6 +32,7 @@ namespace LibraryMainApp.Data
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
+        public DbSet<LibraryMainApp.Models.LibraryProfile> LibraryProfile { get; set; } = default!;
 
     }
 }
