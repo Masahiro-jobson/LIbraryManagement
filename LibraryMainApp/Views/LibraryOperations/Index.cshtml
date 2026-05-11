@@ -1,0 +1,55 @@
+@model IEnumerable<LibraryMainApp.Models.Book>
+@{
+    ViewData["Title"] = "Browse Books";
+}
+
+<div class="text-center mt-4 mb-3">
+    <h2 class="text-primary">📚 Browse Books</h2>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-custom-success mb-3">✅ @TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert-custom-error mb-3">❌ @TempData["Error"]</div>
+}
+
+<div class="book-grid">
+    @foreach (var book in Model)
+    {
+        <div class="book-card">
+            <div class="book-title">📖 @book.Title</div>
+            <div class="book-author">✍️ @book.Author</div>
+            <div class="mt-2"><small class="text-muted">Genre: @book.Genre</small></div>
+            <div><small class="text-muted">ISBN: @book.ISBN</small></div>
+            <div class="mt-2">
+                @if (book.AvailabilityStatus == "Available")
+                {
+                    <span class="book-status-available">✅ Available</span>
+                }
+                else
+                {
+                    <span class="book-status-borrowed">🔴 @book.AvailabilityStatus</span>
+                }
+            </div>
+            <div class="mt-3">
+                @if (book.AvailabilityStatus == "Available")
+                {
+                    <form asp-action="Borrow" method="post" class="d-inline">
+                        <input type="hidden" name="isbn" value="@book.ISBN" />
+                        <button class="btn-custom">Borrow</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="Reserve" method="post" class="d-inline">
+                        <input type="hidden" name="isbn" value="@book.ISBN" />
+                        <button class="btn btn-warning btn-sm" style="border-radius:25px;padding:8px 20px;">Reserve</button>
+                    </form>
+                }
+            </div>
+        </div>
+    }
+</div>

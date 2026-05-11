@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Security Demo";
+}
+
+<h2>Role-Based Access Control Demo</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<p><strong>Current role:</strong> @ViewBag.Role</p>
+<div class="alert @(ViewBag.Role == "Admin" ? "alert-success" : "alert-danger")">
+    @ViewBag.AccessMessage
+</div>
+
+<a class="btn btn-secondary" asp-action="LoginAsMember">Test as Member</a>
+<a class="btn btn-success" asp-action="LoginAsAdmin">Test as Admin</a>
+<a class="btn btn-outline-dark" asp-action="Logout">Clear Session</a>

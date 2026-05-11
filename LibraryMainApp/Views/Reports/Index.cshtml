@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Reports";
+    var overdueBooks = ViewBag.OverdueBooks as IEnumerable<LibraryMainApp.Models.Loan>;
+    var popularBooks = ViewBag.MostBorrowedBooks as IEnumerable<LibraryMainApp.Controllers.PopularBookReport>;
+    var activeMembers = ViewBag.ActiveMembers as IEnumerable<LibraryMainApp.Controllers.ActiveMemberReport>;
+}
+
+<div class="text-center mt-4 mb-3">
+    <h2 class="text-primary">📊 Library Activity Reports</h2>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+        ⚠️ Overdue Books
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped table-custom mb-0">
+            <thead>
+                <tr><th>Loan ID</th><th>Book</th><th>Member</th><th>Due Date</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in overdueBooks ?? Enumerable.Empty<LibraryMainApp.Models.Loan>())
+                {
+                    <tr>
+                        <td>@item.LoanID</td>
+                        <td>@item.Book?.Title</td>
+                        <td>@item.Member?.FirstName @item.Member?.LastName</td>
+                        <td>@item.DueDate.ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        ⭐ Most Borrowed Books
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped table-custom mb-0">
+            <thead>
+                <tr><th>ISBN</th><th>Title</th><th>Borrow Count</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in popularBooks ?? Enumerable.Empty<LibraryMainApp.Controllers.PopularBookReport>())
+                {
+                    <tr><td>@item.ISBN</td><td>@item.Title</td><td>@item.BorrowCount</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        👥 Most Active Members
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped table-custom mb-0">
+            <thead>
+                <tr><th>Member ID</th><th>Name</th><th>Loan Count</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in activeMembers ?? Enumerable.Empty<LibraryMainApp.Controllers.ActiveMemberReport>())
+                {
+                    <tr><td>@item.MemberID</td><td>@item.Name</td><td>@item.LoanCount</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

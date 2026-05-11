@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="LibraryMainApp/LibraryMainApp.csproj" Id="6a2ba6ae-98a8-450b-8602-992655a0c931" />
+  <Project Path="LIbraryManagement/LIbraryManagement.sqlproj" Id="42c0a3c4-026b-4097-96ec-502a94878abc">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
