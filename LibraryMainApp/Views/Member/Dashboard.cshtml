@@ -27,10 +27,27 @@
         </div>
 
         <div class="col-md-4">
-            <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Feedbacks")'">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("BorrowingHistory", "Member")'">
+                <div class="dashboard-icon">📜</div>
+                <h5>Borrowing History</h5>
+                <small>View all past loans</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Create", "Feedbacks")'">
                 <div class="dashboard-icon">⭐</div>
                 <h5>Leave Feedback</h5>
                 <small>Rate books you have read</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Logout", "Account")'">
+                <div class="dashboard-icon">🚪</div>
+                <h5>Logout</h5>
+                <small>Sign out of system</small>
             </div>
         </div>
     </div>

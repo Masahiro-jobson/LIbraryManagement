@@ -49,26 +49,28 @@ namespace LibraryMainApp.Controllers
         // GET: Feedbacks/Create
         public IActionResult Create()
         {
-            ViewData["ISBN"] = new SelectList(_context.Books, "ISBN", "Author");
-            ViewData["MemberID"] = new SelectList(_context.Members, "MemberID", "Email");
+            ViewData["ISBN"] = new SelectList(_context.Books, "ISBN", "Title");
             return View();
         }
 
         // POST: Feedbacks/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FeedbackID,MemberID,ISBN,Rating,Comments,FeedbackDate")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("ISBN,Rating,Comments")] Feedback feedback)
         {
+            feedback.MemberID = HttpContext.Session.GetInt32("UserID") ?? 1;
+            feedback.FeedbackDate = DateTime.Now;
+
+            ModelState.Remove("Member");
+            ModelState.Remove("Book");
+
             if (ModelState.IsValid)
             {
                 _context.Add(feedback);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ISBN"] = new SelectList(_context.Books, "ISBN", "Author", feedback.ISBN);
-            ViewData["MemberID"] = new SelectList(_context.Members, "MemberID", "Email", feedback.MemberID);
+            ViewData["ISBN"] = new SelectList(_context.Books, "ISBN", "Title", feedback.ISBN);
             return View(feedback);
         }
 

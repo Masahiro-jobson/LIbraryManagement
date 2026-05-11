@@ -31,5 +31,22 @@ namespace LibraryMainApp.Controllers
 
             return View(loans);
         }
+
+        // GET: /Member/BorrowingHistory
+        public async Task<IActionResult> BorrowingHistory()
+        {
+            if (HttpContext.Session.GetString("Role") != "Member")
+                return RedirectToAction("Login", "Account");
+
+            var memberID = HttpContext.Session.GetInt32("UserID");
+
+            var history = await _context.Loans
+                .Include(l => l.Book)
+                .Where(l => l.MemberID == memberID)
+                .OrderByDescending(l => l.LoanDate)
+                .ToListAsync();
+
+            return View(history);
+        }
     }
 }

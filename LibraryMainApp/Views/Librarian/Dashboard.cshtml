@@ -8,7 +8,8 @@
 
     <hr />
 
-    <div class="row">
+    <!-- Row 1: Book & Loan Management -->
+    <div class="row justify-content-center">
         <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "LibraryOperations")'">
                 <div class="dashboard-icon">📖</div>
@@ -26,13 +27,24 @@
         </div>
 
         <div class="col-md-3">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Members")'">
+                <div class="dashboard-icon">👥</div>
+                <h5>Manage Members</h5>
+                <small>View and edit members</small>
+            </div>
+        </div>
+
+        <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Reports")'">
                 <div class="dashboard-icon">📊</div>
                 <h5>Reports</h5>
                 <small>View library activity</small>
             </div>
         </div>
+    </div>
 
+    <!-- Row 2: Settings & Admin -->
+    <div class="row justify-content-center mt-4">
         <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "LibraryProfiles")'">
                 <div class="dashboard-icon">🏛️</div>
@@ -40,10 +52,8 @@
                 <small>Manage library details</small>
             </div>
         </div>
-    </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Feedbacks")'">
                 <div class="dashboard-icon">⭐</div>
                 <h5>Member Feedback</h5>
@@ -51,7 +61,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Fines")'">
                 <div class="dashboard-icon">💰</div>
                 <h5>Fines</h5>
@@ -59,7 +69,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="dashboard-card" onclick="location.href='@Url.Action("Logout", "Account")'">
                 <div class="dashboard-icon">🚪</div>
                 <h5>Logout</h5>
