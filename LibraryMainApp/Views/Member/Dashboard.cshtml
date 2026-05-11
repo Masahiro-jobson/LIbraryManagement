@@ -1,0 +1,75 @@
+@model IEnumerable<LibraryMainApp.Models.Loan>
+@{
+    ViewData["Title"] = "Member Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center text-success">📖 Member Dashboard</h1>
+    <p class="text-center lead">Welcome back, @Context.Session.GetString("UserName")!</p>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "LibraryOperations")'">
+                <div class="dashboard-icon">🔍</div>
+                <h5>Browse Books</h5>
+                <small>Search and borrow books</small>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Loans", "LibraryOperations")'">
+                <div class="dashboard-icon">📚</div>
+                <h5>My Borrowed Books</h5>
+                <small>View current loans</small>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Index", "Feedbacks")'">
+                <div class="dashboard-icon">⭐</div>
+                <h5>Leave Feedback</h5>
+                <small>Rate books you have read</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header bg-warning">
+            <h5>📚 Currently Borrowed Books</h5>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Borrowed Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var loan in Model)
+                        {
+                            <tr>
+                                <td>@loan.Book?.Title</td>
+                                <td>@loan.Book?.Author</td>
+                                <td>@loan.LoanDate.ToString("dd MMM yyyy")</td>
+                                <td>@loan.DueDate.ToString("dd MMM yyyy")</td>
+                                <td><span class="badge bg-warning">Active</span></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="5" class="text-center">No current loans.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
