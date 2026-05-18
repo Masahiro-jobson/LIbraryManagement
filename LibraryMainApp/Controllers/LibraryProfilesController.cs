@@ -59,6 +59,7 @@ namespace LibraryMainApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LibraryID,StaffID,Name,Location,OperatingHours,Email,PhoneNumber,LoanDurationDays,MaxBorrowableBooks")] LibraryProfile libraryProfile)
         {
+            ModelState.Remove("Admin");
             if (ModelState.IsValid)
             {
                 _context.Add(libraryProfile);
@@ -98,6 +99,7 @@ namespace LibraryMainApp.Controllers
                 return NotFound();
             }
 
+            ModelState.Remove("Admin");
             if (ModelState.IsValid)
             {
                 try

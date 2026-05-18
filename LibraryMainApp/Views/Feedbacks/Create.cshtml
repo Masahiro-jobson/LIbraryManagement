@@ -1,49 +1,67 @@
-﻿@model LibraryMainApp.Models.Feedback
+@model LibraryMainApp.Models.Feedback
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Leave Feedback";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>⭐ Leave Feedback</h3>
+                </div>
+                <div class="card-body">
 
-<h4>Feedback</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MemberID" class="control-label"></label>
-                <select asp-for="MemberID" class ="form-control" asp-items="ViewBag.MemberID"></select>
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Error</div>
+                    }
+
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="ISBN" class="form-label">Select Book</label>
+                            <select asp-for="ISBN" class="form-control" asp-items="ViewBag.ISBN">
+                                <option value="">-- Select a Book --</option>
+                            </select>
+                            <span asp-validation-for="ISBN" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Rating" class="form-label">Rating (1 - 5)</label>
+                            <select asp-for="Rating" class="form-control">
+                                <option value="">-- Select Rating --</option>
+                                <option value="1">⭐ 1 - Poor</option>
+                                <option value="2">⭐⭐ 2 - Fair</option>
+                                <option value="3">⭐⭐⭐ 3 - Good</option>
+                                <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                                <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                            </select>
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Comments" class="form-label">Comments</label>
+                            <textarea asp-for="Comments" class="form-control" rows="4"
+                                      placeholder="Share your thoughts about this book..."></textarea>
+                            <span asp-validation-for="Comments" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn-custom">Submit Feedback</button>
+                        </div>
+                    </form>
+
+                    <hr />
+                    <div class="text-center">
+                        <a asp-action="Index" class="text-muted">← Back to Feedback List</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ISBN" class="control-label"></label>
-                <select asp-for="ISBN" class ="form-control" asp-items="ViewBag.ISBN"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comments" class="control-label"></label>
-                <input asp-for="Comments" class="form-control" />
-                <span asp-validation-for="Comments" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FeedbackDate" class="control-label"></label>
-                <input asp-for="FeedbackDate" class="form-control" />
-                <span asp-validation-for="FeedbackDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

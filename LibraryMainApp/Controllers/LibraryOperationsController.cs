@@ -10,9 +10,6 @@ namespace LibraryMainApp.Controllers
         private readonly ApplicationDbContext _context;
 
         
-        private const int DemoMemberId = 1;
-        private const int DemoStaffId = 1;
-
         public LibraryOperationsController(ApplicationDbContext context)
         {
             _context = context;
@@ -28,6 +25,16 @@ namespace LibraryMainApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Borrow(int isbn)
         {
+            // Redirect to login if not logged in
+            if (HttpContext.Session.GetString("Role") != "Member")
+            {
+                TempData["Error"] = "Please login as a member to borrow books.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            var memberID = HttpContext.Session.GetInt32("UserID") ?? 1;
+            var staffID = 1;
+
             var book = await _context.Books.FindAsync(isbn);
             if (book == null) return NotFound();
 
@@ -39,8 +46,8 @@ namespace LibraryMainApp.Controllers
 
             var loan = new Loan
             {
-                MemberID = DemoMemberId,
-                StaffID = DemoStaffId,
+                MemberID = memberID,
+                StaffID = staffID,
                 ISBN = isbn,
                 LoanDate = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(14)
@@ -58,6 +65,16 @@ namespace LibraryMainApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reserve(int isbn)
         {
+            // Redirect to login if not logged in
+            if (HttpContext.Session.GetString("Role") != "Member")
+            {
+                TempData["Error"] = "Please login as a member to reserve books.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            var memberID = HttpContext.Session.GetInt32("UserID") ?? 1;
+            var staffID = 1;
+
             var book = await _context.Books.FindAsync(isbn);
             if (book == null) return NotFound();
 
@@ -68,7 +85,7 @@ namespace LibraryMainApp.Controllers
             }
 
             var alreadyReserved = await _context.Reservations.AnyAsync(r =>
-                r.ISBN == isbn && r.MemberID == DemoMemberId && r.Status == "Active");
+                r.ISBN == isbn && r.MemberID == memberID && r.Status == "Active");
 
             if (alreadyReserved)
             {
@@ -78,8 +95,8 @@ namespace LibraryMainApp.Controllers
 
             var reservation = new Reservation
             {
-                MemberID = DemoMemberId,
-                StaffID = DemoStaffId,
+                MemberID = memberID,
+                StaffID = staffID,
                 ISBN = isbn,
                 ReservationDate = DateTime.Now,
                 Status = "Active"
@@ -94,11 +111,19 @@ namespace LibraryMainApp.Controllers
 
         public async Task<IActionResult> Loans()
         {
-            var loans = await _context.Loans
+            var role = HttpContext.Session.GetString("Role");
+            var userID = HttpContext.Session.GetInt32("UserID");
+
+            IQueryable<Loan> query = _context.Loans
                 .Include(l => l.Book)
                 .Include(l => l.Member)
-                .OrderByDescending(l => l.LoanDate)
-                .ToListAsync();
+                .Where(l => l.ReturnDate == null);   // active loans only
+
+            // Members only see their own loans
+            if (role == "Member" && userID.HasValue)
+                query = query.Where(l => l.MemberID == userID.Value);
+
+            var loans = await query.OrderByDescending(l => l.LoanDate).ToListAsync();
             return View(loans);
         }
 
@@ -112,7 +137,10 @@ namespace LibraryMainApp.Controllers
 
             if (loan == null) return NotFound();
 
+            loan.ReturnDate = DateTime.Now;
             loan.Book.AvailabilityStatus = "Available";
+
+            var staffID = HttpContext.Session.GetInt32("UserID") ?? 1;
 
             if (DateTime.Now.Date > loan.DueDate.Date)
             {
@@ -120,7 +148,7 @@ namespace LibraryMainApp.Controllers
                 var fine = new Fine
                 {
                     LoanID = loan.LoanID,
-                    StaffID = DemoStaffId,
+                    StaffID = staffID,
                     FineAmount = overdueDays * 1.00m,
                     FineDate = DateTime.Now,
                     Status = "Unpaid"

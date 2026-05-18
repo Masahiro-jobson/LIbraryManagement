@@ -1,59 +1,68 @@
-﻿@model IEnumerable<LibraryMainApp.Models.Fine>
+@model IEnumerable<LibraryMainApp.Models.Fine>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Manage Fines";
 }
 
-<h1>Index</h1>
+<div class="text-center mt-4 mb-3">
+    <h2 class="text-primary">💰 Manage Fines</h2>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Loan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FineAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FineDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Loan.LoanID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FineAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FineDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FineID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FineID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FineID">Delete</a>
-            </td>
-        </tr>
+@if (TempData["Success"] != null)
+{
+    <div class="alert-custom-success mb-3">✅ @TempData["Success"]</div>
 }
-    </tbody>
-</table>
+@if (TempData["Error"] != null)
+{
+    <div class="alert-custom-error mb-3">❌ @TempData["Error"]</div>
+}
+
+<div class="mb-3 text-end">
+    <a asp-action="Create" class="btn-custom">➕ Issue Fine</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Loan ID</th>
+                    <th>Issued By (Staff)</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.Loan?.LoanID</td>
+                        <td>@item.Staff?.Email</td>
+                        <td><strong>$@item.FineAmount.ToString("F2")</strong></td>
+                        <td>@item.FineDate.ToShortDateString()</td>
+                        <td>
+                            @if (item.Status == "Paid")
+                            {
+                                <span class="book-status-available">✅ Paid</span>
+                            }
+                            else
+                            {
+                                <span class="book-status-borrowed">⚠️ @item.Status</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.FineID"
+                               class="btn btn-warning btn-sm" style="border-radius:20px; margin-right:4px;">✏️ Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.FineID"
+                               class="btn btn-info btn-sm text-white" style="border-radius:20px; margin-right:4px;">🔍 Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.FineID"
+                               class="btn btn-danger btn-sm" style="border-radius:20px;">🗑️ Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

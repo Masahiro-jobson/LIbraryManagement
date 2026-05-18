@@ -21,6 +21,7 @@
                         <th>Author</th>
                         <th>Borrowed Date</th>
                         <th>Due Date</th>
+                        <th>Returned Date</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -35,13 +36,27 @@
                                 <td>@loan.LoanDate.ToString("dd MMM yyyy")</td>
                                 <td>@loan.DueDate.ToString("dd MMM yyyy")</td>
                                 <td>
-                                    @if (DateTime.Now.Date > loan.DueDate.Date)
+                                    @if (loan.ReturnDate.HasValue)
                                     {
-                                        <span class="badge bg-danger">Overdue</span>
+                                        @loan.ReturnDate.Value.ToString("dd MMM yyyy")
                                     }
                                     else
                                     {
-                                        <span class="badge bg-warning">Active</span>
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (loan.ReturnDate.HasValue)
+                                    {
+                                        <span class="badge bg-success">✅ Returned</span>
+                                    }
+                                    else if (DateTime.Now.Date > loan.DueDate.Date)
+                                    {
+                                        <span class="badge bg-danger">⚠️ Overdue</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">📖 Active</span>
                                     }
                                 </td>
                             </tr>
@@ -50,7 +65,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="5" class="text-center">No borrowing history found.</td>
+                            <td colspan="6" class="text-center text-muted py-4">No borrowing history found.</td>
                         </tr>
                     }
                 </tbody>

@@ -22,10 +22,10 @@ namespace LibraryMainApp.Controllers
 
             var memberID = HttpContext.Session.GetInt32("UserID");
 
-            // Fetch current loans for this member
+            // Fetch only ACTIVE loans (not yet returned) for this member
             var loans = await _context.Loans
                 .Include(l => l.Book)
-                .Where(l => l.MemberID == memberID)
+                .Where(l => l.MemberID == memberID && l.ReturnDate == null)
                 .OrderByDescending(l => l.LoanDate)
                 .ToListAsync();
 

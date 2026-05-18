@@ -1,65 +1,83 @@
-﻿@model LibraryMainApp.Models.LibraryProfile
+@model LibraryMainApp.Models.LibraryProfile
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Library Profile";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>🏛️ Create Library Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>LibraryProfile</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StaffID" class="control-label"></label>
-                <select asp-for="StaffID" class ="form-control" asp-items="ViewBag.StaffID"></select>
+                        <div class="mb-3">
+                            <label asp-for="StaffID" class="form-label">Admin (Staff)</label>
+                            <select asp-for="StaffID" class="form-control" asp-items="ViewBag.StaffID">
+                                <option value="">-- Select Admin --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Library Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. City Central Library" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Location" class="form-label">Location</label>
+                            <input asp-for="Location" class="form-control" placeholder="e.g. 123 Main Street, Melbourne" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="OperatingHours" class="form-label">Operating Hours</label>
+                            <input asp-for="OperatingHours" class="form-control" placeholder="e.g. Mon-Fri 9am-5pm, Sat 10am-3pm" />
+                            <span asp-validation-for="OperatingHours" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Contact Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="library@example.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="e.g. 0300000000" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="LoanDurationDays" class="form-label">Loan Duration (Days)</label>
+                                <input asp-for="LoanDurationDays" class="form-control" placeholder="e.g. 14" />
+                                <span asp-validation-for="LoanDurationDays" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MaxBorrowableBooks" class="form-label">Max Books Per Member</label>
+                                <input asp-for="MaxBorrowableBooks" class="form-control" placeholder="e.g. 5" />
+                                <span asp-validation-for="MaxBorrowableBooks" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn-custom">💾 Save Profile</button>
+                        </div>
+                    </form>
+
+                    <hr />
+                    <div class="text-center">
+                        <a asp-action="Index" class="text-muted">← Back to Profile List</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OperatingHours" class="control-label"></label>
-                <input asp-for="OperatingHours" class="form-control" />
-                <span asp-validation-for="OperatingHours" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoanDurationDays" class="control-label"></label>
-                <input asp-for="LoanDurationDays" class="form-control" />
-                <span asp-validation-for="LoanDurationDays" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxBorrowableBooks" class="control-label"></label>
-                <input asp-for="MaxBorrowableBooks" class="form-control" />
-                <span asp-validation-for="MaxBorrowableBooks" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

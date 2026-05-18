@@ -1,71 +1,59 @@
-﻿@model IEnumerable<LibraryMainApp.Models.Member>
+@model IEnumerable<LibraryMainApp.Models.Member>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Manage Members";
 }
 
-<h1>Index</h1>
+<div class="text-center mt-4 mb-3">
+    <h2 class="text-primary">👥 Manage Members</h2>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PasswordHash)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegistrationDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MemberID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MemberID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MemberID">Delete</a>
-            </td>
-        </tr>
+@if (TempData["Success"] != null)
+{
+    <div class="alert-custom-success mb-3">✅ @TempData["Success"]</div>
 }
-    </tbody>
-</table>
+@if (TempData["Error"] != null)
+{
+    <div class="alert-custom-error mb-3">❌ @TempData["Error"]</div>
+}
+
+<div class="mb-3 text-end">
+    <a asp-action="Create" class="btn-custom">➕ Add New Member</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Registered</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><strong>@item.FirstName @item.LastName</strong></td>
+                        <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Address</td>
+                        <td>@item.RegistrationDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.MemberID"
+                               class="btn btn-warning btn-sm" style="border-radius:20px; margin-right:4px;">✏️ Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.MemberID"
+                               class="btn btn-info btn-sm text-white" style="border-radius:20px; margin-right:4px;">🔍 Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.MemberID"
+                               class="btn btn-danger btn-sm" style="border-radius:20px;">🗑️ Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,57 +1,90 @@
-﻿@model LibraryMainApp.Models.Book
+@model LibraryMainApp.Models.Book
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Book";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h3>✏️ Edit Book</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ISBN" />
+                        <input type="hidden" asp-for="CoverImagePath" />
 
-<h4>Book</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ISBN" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Title</label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Author" class="form-label">Author</label>
+                            <input asp-for="Author" class="form-control" />
+                            <span asp-validation-for="Author" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PublishedYear" class="form-label">Published Year</label>
+                            <input asp-for="PublishedYear" class="form-control" />
+                            <span asp-validation-for="PublishedYear" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Genre" class="form-label">Genre</label>
+                            <select asp-for="Genre" class="form-control">
+                                <option value="Fiction">Fiction</option>
+                                <option value="Non-Fiction">Non-Fiction</option>
+                                <option value="Science">Science</option>
+                                <option value="Technology">Technology</option>
+                                <option value="History">History</option>
+                                <option value="Biography">Biography</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span asp-validation-for="Genre" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AvailabilityStatus" class="form-label">Availability Status</label>
+                            <select asp-for="AvailabilityStatus" class="form-control">
+                                <option value="Available">Available</option>
+                                <option value="Borrowed">Borrowed</option>
+                            </select>
+                            <span asp-validation-for="AvailabilityStatus" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Book Cover Image</label>
+                            @if (!string.IsNullOrEmpty(Model.CoverImagePath))
+                            {
+                                <div class="mb-2">
+                                    <img src="@Model.CoverImagePath" alt="Current Cover"
+                                         style="width:100px; border-radius:8px;" />
+                                    <small class="text-muted d-block">Current cover image</small>
+                                </div>
+                            }
+                            <input type="file" name="CoverImage" class="form-control" accept="image/*" />
+                            <div class="form-text">Upload a new image to replace the current one</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn-custom" style="background-color:#ffc107; color:#000;">Save Changes</button>
+                        </div>
+                    </form>
+
+                    <hr />
+                    <div class="text-center">
+                        <a asp-action="Index" class="text-muted">← Back to Book List</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PublishedYear" class="control-label"></label>
-                <input asp-for="PublishedYear" class="form-control" />
-                <span asp-validation-for="PublishedYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AvailabilityStatus" class="control-label"></label>
-                <input asp-for="AvailabilityStatus" class="form-control" />
-                <span asp-validation-for="AvailabilityStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CoverImagePath" class="control-label"></label>
-                <input asp-for="CoverImagePath" class="form-control" />
-                <span asp-validation-for="CoverImagePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
