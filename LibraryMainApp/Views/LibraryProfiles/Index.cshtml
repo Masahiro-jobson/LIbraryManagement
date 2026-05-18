@@ -4,72 +4,53 @@
     ViewData["Title"] = "Library Profile";
 }
 
-<div class="text-center mt-4 mb-3">
-    <h2 class="text-primary">🏛️ Library Profile</h2>
-</div>
+<h1>Library Profile</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 
 @if (TempData["Success"] != null)
 {
-    <div class="alert-custom-success mb-3">✅ @TempData["Success"]</div>
+    <div class="alert alert-success">@TempData["Success"]</div>
 }
 @if (TempData["Error"] != null)
 {
-    <div class="alert-custom-error mb-3">❌ @TempData["Error"]</div>
+    <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
-@if (!Model.Any())
-{
-    <div class="text-center mt-5">
-        <p class="text-muted">No library profile has been created yet.</p>
-        <a asp-action="Create" class="btn-custom">🏛️ Create Library Profile</a>
-    </div>
-}
-else
-{
-    <div class="mb-3 text-end">
-        <a asp-action="Create" class="btn-custom">➕ Add Profile</a>
-    </div>
-
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table-custom">
-                <thead>
-                    <tr>
-                        <th>Library Name</th>
-                        <th>Admin</th>
-                        <th>Location</th>
-                        <th>Hours</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Loan Days</th>
-                        <th>Max Books</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td><strong>@item.Name</strong></td>
-                            <td>@item.Admin?.Email</td>
-                            <td>@item.Location</td>
-                            <td>@item.OperatingHours</td>
-                            <td>@item.Email</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.LoanDurationDays days</td>
-                            <td>@item.MaxBorrowableBooks books</td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.LibraryID"
-                                   class="btn btn-warning btn-sm" style="border-radius:20px; margin-right:4px;">✏️ Edit</a>
-                                <a asp-action="Details" asp-route-id="@item.LibraryID"
-                                   class="btn btn-info btn-sm text-white" style="border-radius:20px; margin-right:4px;">🔍 Details</a>
-                                <a asp-action="Delete" asp-route-id="@item.LibraryID"
-                                   class="btn btn-danger btn-sm" style="border-radius:20px;">🗑️ Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Library Name</th>
+            <th>Admin</th>
+            <th>Location</th>
+            <th>Hours</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Loan Days</th>
+            <th>Max Books</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@item.Admin?.Email</td>
+                <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                <td>@Html.DisplayFor(modelItem => item.OperatingHours)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.LoanDurationDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.MaxBorrowableBooks)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LibraryID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.LibraryID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.LibraryID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
