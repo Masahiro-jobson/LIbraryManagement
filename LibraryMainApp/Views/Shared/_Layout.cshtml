@@ -27,7 +27,6 @@
                             <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="Index">Manage Books</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="LibraryOperations" asp-action="Loans">Loans</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Reports" asp-action="Index">Reports</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="SecurityDemo" asp-action="AdminOnly">Security Demo</a></li>
                         }
                         @if (Context.Session.GetString("Role") == "Member")
                         {
